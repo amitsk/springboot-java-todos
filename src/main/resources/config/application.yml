@@ -1,0 +1,5 @@
+sunrise:
+    sunriseapi:
+      url: https://api.sunrise-sunset.org/json
+
+
