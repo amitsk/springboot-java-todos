@@ -14,7 +14,6 @@ public class SpringBootJavaTodosApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		assertThat(true).as("Nooooooo.....").isFalse();
 	}
 
 }
