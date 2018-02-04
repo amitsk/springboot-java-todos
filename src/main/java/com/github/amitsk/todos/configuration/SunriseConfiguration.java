@@ -1,6 +1,8 @@
 package com.github.amitsk.todos.configuration;
 
 //import com.nike.backstopper.exception.ApiException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,9 +14,12 @@ import org.springframework.web.reactive.config.DelegatingWebFluxConfiguration;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.WebExceptionHandler;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
 @EnableConfigurationProperties(SunriseProperties.class)
 public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    @Bean
 //    @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -26,7 +31,9 @@ public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
     @Qualifier("sunriseWebClient")
     @Autowired
     public WebClient sunriseWebClient(SunriseProperties sunriseProperties){
-        return WebClient.create(sunriseProperties.getSunriseApi().getUrl());
+        String url = sunriseProperties.getSunriseApi().getUrl();
+        logger.info("Creating bean for {}", url);
+        return WebClient.create(url);
     }
 
 }

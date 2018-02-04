@@ -1,5 +1,6 @@
 package com.github.amitsk.todos.service;
 
+import com.github.amitsk.todos.model.SunsetApiResponse;
 import com.github.amitsk.todos.model.SunsetSunrise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +23,17 @@ public class SunriseApiClient {
     }
 
     public Mono<SunsetSunrise> callApi(Double lat, Double lng) {
-        logger.info("Invoking call for lat={}, lng = {}", lat, lng);
+        logger.info("Invoking call for lat={}, lng = {} and URL {}", lat, lng);
         return sunriseWebClient.get()
-                .uri(builder -> builder
-                        .replacePath("")
+                .uri(builder ->
+                         builder
                         .queryParam("lat", lat)
                         .queryParam("lng", lng)
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(SunsetSunrise.class);
+                .bodyToMono(SunsetApiResponse.class)
+                .map(SunsetApiResponse::toSunsetSunrise);
     }
 
 }

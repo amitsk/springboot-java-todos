@@ -15,7 +15,7 @@ public class SunsetApiResponse {
 
 
     @Data
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor
     @AllArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
     private class Results {

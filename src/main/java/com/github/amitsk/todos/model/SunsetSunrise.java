@@ -1,9 +1,10 @@
 package com.github.amitsk.todos.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
-@Value
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class SunsetSunrise {
     private String sunrise;
     private String sunset;
