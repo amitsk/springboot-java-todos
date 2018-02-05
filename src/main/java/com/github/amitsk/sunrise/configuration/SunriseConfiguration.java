@@ -1,6 +1,7 @@
-package com.github.amitsk.todos.configuration;
+package com.github.amitsk.sunrise.configuration;
 
 //import com.nike.backstopper.exception.ApiException;
+import com.github.amitsk.sunrise.handlers.SunriseExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,16 @@ import org.springframework.web.reactive.config.DelegatingWebFluxConfiguration;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.WebExceptionHandler;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 @EnableConfigurationProperties(SunriseProperties.class)
 public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public WebExceptionHandler exceptionHandler() {
-//        return new SunriseExceptionHandler();
-//    }
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public WebExceptionHandler sunriseExceptionHandler() {
+        return new SunriseExceptionHandler();
+    }
 
     @Bean
     @Qualifier("sunriseWebClient")

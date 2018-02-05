@@ -1,4 +1,4 @@
-package com.github.amitsk.todos.model;
+package com.github.amitsk.sunrise.model;
 
 import lombok.*;
 

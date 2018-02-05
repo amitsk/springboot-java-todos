@@ -56,7 +56,8 @@ dependencies {
     compile('io.projectreactor.ipc:reactor-netty')
     compileOnly('org.projectlombok:lombok')
     compile "com.fasterxml.jackson.module:jackson-modules-java8:${jacksonVersion}"
-	runtime('org.springframework.boot:spring-boot-devtools')
+    compile 'com.nike.backstopper:backstopper-core:0.11.4'
+	//runtime('org.springframework.boot:spring-boot-devtools')
 
     //Start Test deps
 	testCompile('org.springframework.boot:spring-boot-starter-test') {

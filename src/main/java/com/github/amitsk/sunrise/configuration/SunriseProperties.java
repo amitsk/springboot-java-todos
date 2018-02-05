@@ -1,4 +1,4 @@
-package com.github.amitsk.todos.configuration;
+package com.github.amitsk.sunrise.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

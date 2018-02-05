@@ -1,7 +1,8 @@
-package com.github.amitsk.todos.service;
+package com.github.amitsk.sunrise.service;
 
-import com.github.amitsk.todos.model.SunsetApiResponse;
-import com.github.amitsk.todos.model.SunsetSunrise;
+import com.github.amitsk.sunrise.model.SunsetApiResponse;
+import com.github.amitsk.sunrise.model.SunriseRequest;
+import com.github.amitsk.sunrise.model.SunsetSunrise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class SunriseApiClient {
         this.sunriseWebClient = webClient;
     }
 
-    public Mono<SunsetSunrise> callApi(Double lat, Double lng) {
-        logger.info("Invoking call for lat={}, lng = {} and URL {}", lat, lng);
+    public Mono<SunsetSunrise> callApi(SunriseRequest sunriseRequest) {
+        logger.info("Invoking call for lat={}, lng = {} and URL {}", sunriseRequest.getLat(), sunriseRequest.getLng());
         return sunriseWebClient.get()
                 .uri(builder ->
                          builder
-                        .queryParam("lat", lat)
-                        .queryParam("lng", lng)
+                        .queryParam("lat", sunriseRequest.getLat())
+                        .queryParam("lng", sunriseRequest.getLng())
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()

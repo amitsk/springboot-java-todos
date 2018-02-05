@@ -1,7 +1,7 @@
-package com.github.amitsk.todos.service;
+package com.github.amitsk.sunrise.service;
 
 
-import com.github.amitsk.todos.model.SunsetSunrise;
+import com.github.amitsk.sunrise.model.SunsetSunrise;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
