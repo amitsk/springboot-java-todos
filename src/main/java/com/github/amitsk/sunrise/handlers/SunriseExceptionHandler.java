@@ -66,12 +66,12 @@ public class SunriseExceptionHandler implements WebExceptionHandler {
 
         @Override
         public List<HttpMessageWriter<?>> messageWriters() {
-            return null;
+            return this.handlerStrategies.messageWriters();
         }
 
         @Override
         public List<ViewResolver> viewResolvers() {
-            return null;
+            return this.handlerStrategies.viewResolvers();
         }
     }
 }
