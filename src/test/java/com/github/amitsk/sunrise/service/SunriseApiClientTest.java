@@ -9,6 +9,8 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 
@@ -49,9 +51,13 @@ public class SunriseApiClientTest {
         server.start();
 
         // Ask the server for its URL. You'll need this to make HTTP requests.
-        HttpUrl baseUrl = server.url("/json");
+        HttpUrl baseUrl = server.url("/json/");
         WebClient testWebClient = WebClient.create(baseUrl.uri().toString());
-        SunriseApiClient sunriseApiClient = new SunriseApiClient(testWebClient);
+        SunriseService sunriseService = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build().create(SunriseService.class);
+        SunriseApiClient sunriseApiClient = new SunriseApiClient(sunriseService);
 
         SunsetSunrise sunsetSunrise = sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
         assertThat(sunsetSunrise.getSunrise()).isEqualTo("A");

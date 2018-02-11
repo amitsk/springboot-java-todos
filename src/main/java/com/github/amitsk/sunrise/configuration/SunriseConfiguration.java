@@ -1,7 +1,7 @@
 package com.github.amitsk.sunrise.configuration;
 
-//import com.nike.backstopper.exception.ApiException;
 import com.github.amitsk.sunrise.handlers.SunriseExceptionHandler;
+import com.github.amitsk.sunrise.service.SunriseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.reactive.config.DelegatingWebFluxConfiguration;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.WebExceptionHandler;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 @Configuration
 @EnableConfigurationProperties(SunriseProperties.class)
@@ -33,6 +35,17 @@ public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
         String url = sunriseProperties.getSunriseApi().getUrl();
         logger.info("Creating bean for {}", url);
         return WebClient.create(url);
+    }
+
+    @Bean
+    @Autowired
+    public SunriseService sunriseService(SunriseProperties sunriseProperties){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(sunriseProperties.getSunriseApi().getUrl())
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
+        return retrofit.create(SunriseService.class);
+
     }
 
 }
