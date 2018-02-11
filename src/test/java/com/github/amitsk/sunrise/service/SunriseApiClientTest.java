@@ -43,8 +43,8 @@ public class SunriseApiClientTest {
                 .setResponseCode(503);
 
         server.enqueue(response);
-        server.enqueue(badResponse400);
-        server.enqueue(badResponse503);
+//        server.enqueue(badResponse400);
+//        server.enqueue(badResponse503);
         // Start the server.
         server.start();
 
@@ -57,9 +57,9 @@ public class SunriseApiClientTest {
         assertThat(sunsetSunrise.getSunrise()).isEqualTo("A");
         assertThat(sunsetSunrise.getSunset()).isEqualTo("B");
 
-        sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
-
-        sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
+//        sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
+//
+//        sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
 
     }
 
