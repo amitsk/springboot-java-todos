@@ -3,6 +3,7 @@ package com.github.amitsk.sunrise.controllers;
 import com.github.amitsk.sunrise.model.SunriseRequest;
 import com.github.amitsk.sunrise.model.SunsetSunrise;
 import com.github.amitsk.sunrise.service.SunriseApiClient;
+import com.github.amitsk.sunrise.service.SunriseService;
 import com.nike.backstopper.exception.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+import retrofit2.Retrofit;
 
 import javax.validation.Valid;
 import javax.validation.Validator;
@@ -30,7 +32,8 @@ public class SunriseController {
     private Validator validator;
 
     @Autowired
-    public SunriseController(SunriseApiClient sunriseApiClient) {
+    public SunriseController(SunriseApiClient sunriseApiClient)
+    {
         this.sunriseApiClient = sunriseApiClient;
     }
 
