@@ -5,6 +5,8 @@ import com.github.amitsk.sunrise.model.SunsetSunrise;
 import com.github.amitsk.sunrise.service.SunriseApiClient;
 import com.github.amitsk.sunrise.service.SunriseService;
 import com.nike.backstopper.exception.ApiException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,9 @@ public class SunriseController {
             throw ApiException.newBuilder()
                     .withApiErrors(GENERIC_BAD_REQUEST).build();
         }
-        return sunriseApiClient.callApi(sunriseRequest);
+        //TODO - Put this inthe Configuration class!!
+        CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("sunriseRequest");
+
+        return sunriseApiClient.callApi(sunriseRequest).transform(CircuitBreakerOperator.of(circuitBreaker));
     }
 }

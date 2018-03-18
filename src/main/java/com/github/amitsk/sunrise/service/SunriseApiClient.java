@@ -25,8 +25,8 @@ public class SunriseApiClient {
         logger.info("Invoking call for lat={}, lng = {} and URL {}", sunriseRequest.getLat(), sunriseRequest.getLng());
 
         return sunriseService.sunrise(sunriseRequest.getLat(),
-                sunriseRequest.getLng()).map(SunsetApiResponse::toSunsetSunrise);
-        //return Mono.just(new SunsetSunrise("1200", "1200"));
+                sunriseRequest.getLng())
+                .map(SunsetApiResponse::toSunsetSunrise);
     }
 
 }
