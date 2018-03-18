@@ -2,6 +2,7 @@ package com.github.amitsk.sunrise.configuration;
 
 import com.github.amitsk.sunrise.handlers.SunriseExceptionHandler;
 import com.github.amitsk.sunrise.service.SunriseService;
+import com.jakewharton.retrofit2.adapter.reactor.ReactorCallAdapterFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,12 @@ public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
     @Bean
     @Autowired
     public SunriseService sunriseService(SunriseProperties sunriseProperties){
+
+        String baseUrl = sunriseProperties.getSunriseApi().getUrl();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(sunriseProperties.getSunriseApi().getUrl())
+                .baseUrl(baseUrl)
+                .addCallAdapterFactory(ReactorCallAdapterFactory.createAsync())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
         return retrofit.create(SunriseService.class);
