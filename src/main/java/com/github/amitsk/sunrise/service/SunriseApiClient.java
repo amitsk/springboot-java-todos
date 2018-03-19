@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
-import retrofit2.Response;
 
 @Component
 public class SunriseApiClient {
@@ -22,7 +21,7 @@ public class SunriseApiClient {
     }
 
     public Mono<SunsetSunrise> callApi(SunriseRequest sunriseRequest) {
-        logger.info("Invoking call for lat={}, lng = {} and URL {}", sunriseRequest.getLat(), sunriseRequest.getLng());
+        logger.info("Invoking call for lat={}, lng = {} ", sunriseRequest.getLat(), sunriseRequest.getLng());
 
         return sunriseService.sunrise(sunriseRequest.getLat(),
                 sunriseRequest.getLng())

@@ -9,6 +9,6 @@ import retrofit2.http.Query;
 
 public interface SunriseService {
 
-    @GET("/")
+    @GET("/json")
     Mono<SunsetApiResponse> sunrise(@Query("lat") String lat, @Query("lng") String lng);
 }

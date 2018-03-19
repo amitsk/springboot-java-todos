@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.RC1'
+		springBootVersion = '2.0.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -43,7 +43,7 @@ repositories {
 
 
 ext {
-	springCloudVersion = 'Finchley.M6'
+	springCloudVersion = 'Finchley.M8'
 }
 
 dependencies {
@@ -58,13 +58,12 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
     compile "com.fasterxml.jackson.module:jackson-modules-java8:${jacksonVersion}"
     compile 'com.nike.backstopper:backstopper-core:0.11.4'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
     compile 'com.squareup.retrofit2:converter-jackson:2.4.0'
     compile "io.github.resilience4j:resilience4j-circuitbreaker:$resilience4jVersion"
     compile "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
     compile "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
     compile 'com.jakewharton.retrofit:retrofit2-reactor-adapter:2.1.0'
-	//runtime('org.springframework.boot:spring-boot-devtools')
 
     //Start Test deps
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
