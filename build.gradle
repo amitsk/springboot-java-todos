@@ -8,8 +8,6 @@ buildscript {
 		maven { url "https://repo.spring.io/milestone" }
 	}
 	dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
-        classpath 'com.kncept.junit5.reporter:junit-reporter:1.0.2'
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
@@ -17,18 +15,18 @@ buildscript {
 ext {
     restAssuredVersion = '3.0.6'
     jacksonVersion = '2.9.4'
-    junitPlatformVersion = '1.0.3'
-    junitJupiterVersion = '5.0.3'
+    junitJupiterVersion = '5.1.0'
     log4jVersion = '2.10.0'
     resilience4jVersion = '0.12.1'
+    springCloudVersion = 'Finchley.M8'
+    retrofitVersion = '2.4.0'
+    reactorAdapterVersion = '2.1.0'
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'project-report'
-apply plugin: 'org.junit.platform.gradle.plugin'
-apply plugin: 'com.kncept.junit5.reporter'
 
 group = 'com.github.amitsk'
 version = '0.0.1-SNAPSHOT'
@@ -39,11 +37,6 @@ repositories {
     jcenter()
 	maven { url "https://repo.spring.io/snapshot" }
 	maven { url "https://repo.spring.io/milestone" }
-}
-
-
-ext {
-	springCloudVersion = 'Finchley.M8'
 }
 
 dependencies {
@@ -58,12 +51,12 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
     compile "com.fasterxml.jackson.module:jackson-modules-java8:${jacksonVersion}"
     compile 'com.nike.backstopper:backstopper-core:0.11.4'
-    compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.4.0'
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
     compile "io.github.resilience4j:resilience4j-circuitbreaker:$resilience4jVersion"
     compile "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
     compile "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
-    compile 'com.jakewharton.retrofit:retrofit2-reactor-adapter:2.1.0'
+    compile "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
 
     //Start Test deps
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
@@ -91,22 +84,16 @@ dependencyManagement {
 	}
 }
 
-junitPlatform {
-    filters {
-        engines {
-            include 'junit-jupiter'
-            // exclude 'custom-engine'
-        }
-        tags {
-            // include 'fast'
-            exclude 'slow'
-        }
-        // includeClassNamePattern '.*Test'
+test {
+    testLogging {
+        showStandardStreams = true
     }
-    // configurationParameter 'junit.jupiter.conditions.deactivate', '*'
-    // enableStandardTestTask true
-    // reportsDir file('build/test-results/junit-platform') // this is the default
-    //logManager 'org.slf4j.LoggerFactory'
+    useJUnitPlatform {
+        // includeTags 'fast'
+        excludeTags 'slow'
+
+        // includeEngines 'junit-jupiter', 'junit-vintage'
+        // excludeEngines 'custom-engine'
+    }
 }
 
-junitPlatformTest.finalizedBy 'junitHtmlReport'

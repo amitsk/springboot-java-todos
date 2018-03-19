@@ -29,7 +29,7 @@ public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
 
     @Bean
     @Autowired
-    public SunriseService sunriseService(SunriseProperties sunriseProperties){
+    public SunriseService sunriseService(SunriseProperties sunriseProperties) {
 
         String baseUrl = sunriseProperties.getSunriseApi().getUrl();
 
