@@ -18,7 +18,7 @@ public class SunsetApiResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private class Results {
+    private static class Results {
         private String sunrise;
         private String sunset;
     }

@@ -62,6 +62,9 @@ dependencies {
     compile "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
     compile "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
     compile "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    compile 'io.zipkin.brave:brave-instrumentation-okhttp3:5.1.2'
+    compile 'io.zipkin.brave:brave-instrumentation-http:5.1.2'
 
     //Start Test deps
 	testCompile('org.springframework.boot:spring-boot-starter-test') {

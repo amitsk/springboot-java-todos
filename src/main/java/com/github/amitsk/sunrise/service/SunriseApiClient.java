@@ -3,6 +3,7 @@ package com.github.amitsk.sunrise.service;
 import com.github.amitsk.sunrise.model.SunriseRequest;
 import com.github.amitsk.sunrise.model.SunsetApiResponse;
 import com.github.amitsk.sunrise.model.SunsetSunrise;
+import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class SunriseApiClient {
         this.sunriseService = sunriseService;
     }
 
+    @Timed
     public Mono<SunsetSunrise> callApi(SunriseRequest sunriseRequest) {
         logger.info("Invoking call for lat={}, lng = {} ", sunriseRequest.getLat(), sunriseRequest.getLng());
 

@@ -7,6 +7,9 @@ import com.github.amitsk.sunrise.service.SunriseService;
 import com.nike.backstopper.exception.ApiException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,34 +32,44 @@ public class SunriseController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final SunriseApiClient sunriseApiClient;
+    private final Counter counter;
+    private final Counter validationErrorCounter;
+    private final Counter successfulRequestCounter;
 
     @Autowired
     private Validator validator;
 
     @Autowired
-    public SunriseController(SunriseApiClient sunriseApiClient)
+    public SunriseController(SunriseApiClient sunriseApiClient, MeterRegistry registry)
     {
         this.sunriseApiClient = sunriseApiClient;
+        this.counter = registry.counter("received.requests");
+        this.validationErrorCounter = registry.counter("validation.error.requests");
+        this.successfulRequestCounter = registry.counter("successful.requests");
     }
 
 
 
     @GetMapping("/{lat}/{lng}")
     @Valid
+    @Timed
     public Mono<SunsetSunrise> getSunsetSunrise(
             @PathVariable String lat,
             @PathVariable String lng) {
+
+        counter.increment();
         //TODO Plugin Validation
         SunriseRequest sunriseRequest = new SunriseRequest(lat, lng);
         logger.info("Sunrise Request passed {}", sunriseRequest);
 
         if(!validator.validate(sunriseRequest).isEmpty()) {
+            validationErrorCounter.increment();
             throw ApiException.newBuilder()
                     .withApiErrors(GENERIC_BAD_REQUEST).build();
         }
-        //TODO - Put this inthe Configuration class!!
-        CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("sunriseRequest");
 
-        return sunriseApiClient.callApi(sunriseRequest).transform(CircuitBreakerOperator.of(circuitBreaker));
+        Mono<SunsetSunrise> sunsetSunriseMono = sunriseApiClient.callApi(sunriseRequest);
+        successfulRequestCounter.increment();
+        return sunsetSunriseMono;
     }
 }

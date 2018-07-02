@@ -13,6 +13,8 @@
     <logger name="org.apache.http" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.test" level="INFO"/>
+    <logger name="org.springframework.core.io" level="INFO"/>
+    <logger name="org.springframework.core.env" level="INFO"/>
 
     <!-- Appender to log to console -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
