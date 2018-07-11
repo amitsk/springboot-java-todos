@@ -10,6 +10,8 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 
@@ -52,9 +54,9 @@ public class SunriseApiClientTest {
         SunriseProperties.SunriseApi sunriseApi = new SunriseProperties.SunriseApi();
         sunriseApi.setUrl(baseUrl.toString());
         sunriseProperties.setSunriseApi(sunriseApi);
-        SunriseService sunriseService = new SunriseConfiguration().sunriseService(sunriseProperties);
 
-        SunriseApiClient sunriseApiClient = new SunriseApiClient(sunriseService);
+        WebClient webClient = WebClient.create(baseUrl.toString());
+        SunriseApiClient sunriseApiClient = new SunriseApiClient(webClient);
 
         SunsetSunrise sunsetSunrise = sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
         assertThat(sunsetSunrise.getSunrise()).isEqualTo("A");

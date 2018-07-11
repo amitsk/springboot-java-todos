@@ -38,7 +38,7 @@ public class SpringBootJavaTodosApplicationTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .json("");
+                .json("{\"sunrise\":\"1000\",\"sunset\":\"2000\"}");
 
     }
 

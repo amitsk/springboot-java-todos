@@ -43,6 +43,7 @@
 
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="flatfile" />
+        <appender-ref ref="console" />
     </appender>
 
     <root level="INFO">
