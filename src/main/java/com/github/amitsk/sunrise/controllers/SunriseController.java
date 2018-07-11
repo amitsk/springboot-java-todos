@@ -68,9 +68,7 @@ public class SunriseController {
                     .withApiErrors(GENERIC_BAD_REQUEST).build();
         }
 
-        //Mono<SunsetSunrise> sunsetSunriseMono = sunriseApiClient.callApi(sunriseRequest);
-        Mono<SunsetSunrise> sunsetSunriseMono = Mono.just(new SunsetSunrise("1000", "2000" +
-                ""));
+        Mono<SunsetSunrise> sunsetSunriseMono = sunriseApiClient.callApi(sunriseRequest);
         successfulRequestCounter.increment();
         return sunsetSunriseMono;
     }
