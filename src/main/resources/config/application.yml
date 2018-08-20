@@ -1,5 +1,5 @@
 sunrise:
     sunriseapi:
-      url: https://api.sunrise-sunset.org
+      url: http://localhost:3000
 
 
