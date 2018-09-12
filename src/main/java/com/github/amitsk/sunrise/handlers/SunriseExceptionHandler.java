@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Component
 public class SunriseExceptionHandler implements WebExceptionHandler {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

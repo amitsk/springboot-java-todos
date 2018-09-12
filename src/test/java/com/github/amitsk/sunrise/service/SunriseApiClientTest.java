@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 
@@ -56,7 +57,7 @@ public class SunriseApiClientTest {
         sunriseProperties.setSunriseApi(sunriseApi);
 
         WebClient webClient = WebClient.create(baseUrl.toString());
-        SunriseApiClient sunriseApiClient = new SunriseApiClient(webClient);
+        SunriseApiClient sunriseApiClient = new SunriseApiClient(webClient, Schedulers.single());
 
         SunsetSunrise sunsetSunrise = sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
         assertThat(sunsetSunrise.getSunrise()).isEqualTo("A");

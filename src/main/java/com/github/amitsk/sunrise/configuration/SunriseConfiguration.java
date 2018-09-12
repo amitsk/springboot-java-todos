@@ -12,6 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.reactive.config.DelegatingWebFluxConfiguration;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.WebExceptionHandler;
+import reactor.core.scheduler.Scheduler;
+import reactor.scheduler.forkjoin.ForkJoinPoolScheduler;
 
 @Configuration
 @EnableConfigurationProperties(SunriseProperties.class)
@@ -34,4 +36,8 @@ public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
                 .build();
     }
 
+    @Bean
+    public Scheduler sunriseApiScheduler() {
+        return ForkJoinPoolScheduler.create("sunriseApiScheduler");
+    }
 }

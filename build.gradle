@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.3.RELEASE'
+		springBootVersion = '2.1.0.M2'
 	}
 	repositories {
 		mavenCentral()
@@ -15,16 +15,16 @@ buildscript {
 ext {
     restAssuredVersion = '3.0.6'
     jacksonVersion = '2.9.4'
-    junitJupiterVersion = '5.2.0-M1'
+    junitJupiterVersion = '5.3.0-RC1'
     log4jVersion = '2.10.0'
     resilience4jVersion = '0.12.1'
-    springCloudSleuthVersion = '2.0.0.RELEASE'
     retrofitVersion = '2.4.0'
     reactorAdapterVersion = '2.1.0'
     backstopperVersion = '0.11.5'
-    assertJVersion = '3.9.1'
+    assertJVersion = '3.11.0'
     mockitoVersion = '2.16.0'
     mockWebServerVersion = '3.10.0'
+    springCloudVersion = 'Greenwich.BUILD-SNAPSHOT'
 }
 
 apply plugin: 'java'
@@ -51,7 +51,7 @@ dependencies {
         exclude module: 'tomcat-embed-core'
     }
 	compile('org.springframework.boot:spring-boot-starter-webflux')
-    compile('io.projectreactor.ipc:reactor-netty')
+    compile ('io.projectreactor.addons:reactor-extra')
     compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
     compileOnly('org.projectlombok:lombok')
     compile "com.fasterxml.jackson.module:jackson-modules-java8:${jacksonVersion}"
@@ -86,9 +86,9 @@ dependencies {
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-sleuth:${springCloudSleuthVersion}"
-	}
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 test {
