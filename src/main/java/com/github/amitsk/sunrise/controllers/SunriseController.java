@@ -69,8 +69,8 @@ public class SunriseController {
         }
 
         Mono<SunsetSunrise> sunsetSunriseMono =
-                sunriseApiClient.callApi(sunriseRequest)
-                ;
+                sunriseApiClient.callApi(sunriseRequest);
+
         successfulRequestCounter.increment();
         return sunsetSunriseMono;
     }

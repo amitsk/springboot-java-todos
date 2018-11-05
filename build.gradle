@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.0.M2'
+		springBootVersion = '2.1.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -15,16 +15,16 @@ buildscript {
 ext {
     restAssuredVersion = '3.0.6'
     jacksonVersion = '2.9.4'
-    junitJupiterVersion = '5.3.0-RC1'
+    junitJupiterVersion = '5.3.1'
     log4jVersion = '2.10.0'
-    resilience4jVersion = '0.12.1'
+    resilience4jVersion = '0.13.1'
     retrofitVersion = '2.4.0'
     reactorAdapterVersion = '2.1.0'
     backstopperVersion = '0.11.5'
-    assertJVersion = '3.11.0'
-    mockitoVersion = '2.16.0'
+    assertJVersion = '3.11.1'
+    mockitoVersion = '2.23.0'
     mockWebServerVersion = '3.10.0'
-    springCloudVersion = 'Greenwich.BUILD-SNAPSHOT'
+    springCloudVersion = 'Greenwich.M1'
 }
 
 apply plugin: 'java'
