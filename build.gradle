@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.0.RELEASE'
+		springBootVersion = '2.1.1.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -13,12 +13,12 @@ buildscript {
 }
 
 ext {
-    restAssuredVersion = '3.0.6'
-    jacksonVersion = '2.9.4'
-    junitJupiterVersion = '5.3.1'
-    log4jVersion = '2.10.0'
-    resilience4jVersion = '0.13.1'
-    retrofitVersion = '2.4.0'
+    restAssuredVersion = '3.2.0'
+    jacksonVersion = '2.9.7'
+    junitJupiterVersion = '5.3.2'
+    resilience4jVersion = '0.13.2'
+    retrofitVersion = '2.5.0'
+    retrofitInterceptorVersion = '2.4.0'
     reactorAdapterVersion = '2.1.0'
     backstopperVersion = '0.11.5'
     assertJVersion = '3.11.1'
@@ -44,6 +44,8 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+    compileOnly('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 	compile('org.springframework.retry:spring-retry')
@@ -53,7 +55,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-webflux')
     compile ('io.projectreactor.addons:reactor-extra')
     compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    compileOnly('org.projectlombok:lombok')
+    
     compile "com.fasterxml.jackson.module:jackson-modules-java8:${jacksonVersion}"
     compile "com.nike.backstopper:backstopper-core:$backstopperVersion"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -62,9 +64,6 @@ dependencies {
     compile "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
     compile "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
     compile "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
-    compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    compile 'io.zipkin.brave:brave-instrumentation-okhttp3:5.1.2'
-    compile 'io.zipkin.brave:brave-instrumentation-http:5.1.2'
 
     //Start Test deps
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
