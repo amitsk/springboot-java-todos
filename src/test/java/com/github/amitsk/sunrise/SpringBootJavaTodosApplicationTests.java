@@ -2,7 +2,7 @@ package com.github.amitsk.sunrise;
 
 import com.github.amitsk.sunrise.controllers.SunriseController;
 import com.github.amitsk.sunrise.model.SunriseRequest;
-import com.github.amitsk.sunrise.model.SunsetSunrise;
+import com.github.amitsk.sunrise.model.SunsetApiResponse;
 import com.github.amitsk.sunrise.service.SunriseApiClient;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class SpringBootJavaTodosApplicationTests {
     @Test
     public void testHappyPath() {
         Mockito.when(sunriseApiClient.callApi(ArgumentMatchers.any(SunriseRequest.class)))
-                .thenReturn(Mono.just(new SunsetSunrise("1000", "2000")));
+                .thenReturn(Mono.just(new SunsetApiResponse.SunsetSunrise("1000", "2000")));
 
         webTestClient.get()
                 .uri("/sunrise/10.0/12.0")
