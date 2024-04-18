@@ -3,7 +3,6 @@ package com.github.amitsk.sunrise.errors;
 import com.nike.backstopper.apierror.ApiError;
 import com.nike.backstopper.apierror.ApiErrorBase;
 import com.nike.backstopper.apierror.ApiErrorWithMetadata;
-import com.nike.internal.util.MapBuilder;
 
 import java.util.Map;
 import java.util.UUID;

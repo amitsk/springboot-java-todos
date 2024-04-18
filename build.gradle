@@ -42,9 +42,6 @@ dependencies {
     implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
-    implementation "io.github.resilience4j:resilience4j-circuitbreaker:$resilience4jVersion"
-    implementation "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
-    implementation "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
     implementation "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
