@@ -2,7 +2,6 @@ package com.github.amitsk.sunrise.service;
 
 import com.github.amitsk.sunrise.model.SunriseRequest;
 import com.github.amitsk.sunrise.model.SunsetApiResponse;
-import com.github.amitsk.sunrise.model.SunsetSunrise;
 import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,33 +10,26 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
-import reactor.scheduler.forkjoin.ForkJoinPoolScheduler;
-
-import java.util.concurrent.ForkJoinPool;
 
 @Component
 public class SunriseApiClient {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final WebClient webClient;
-    private final Scheduler forkJoinPoolScheduler;
 
     @Autowired
-    public SunriseApiClient(WebClient webClient, Scheduler forkJoinPoolScheduler) {
+    public SunriseApiClient(WebClient webClient) {
         this.webClient = webClient;
-        this.forkJoinPoolScheduler = forkJoinPoolScheduler;
     }
 
     @Timed
-    public Mono<SunsetSunrise> callApi(SunriseRequest sunriseRequest) {
-        logger.info("Invoking call for lat={}, lng = {} ", sunriseRequest.getLat(), sunriseRequest.getLng());
+    public Mono<SunsetApiResponse.SunsetSunrise> callApi(SunriseRequest sunriseRequest) {
+        logger.info("Invoking call for lat={}, lng = {} ", sunriseRequest.lat(), sunriseRequest.lng());
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder.path("/json")
-                        .queryParam("lat", sunriseRequest.getLat())
-                        .queryParam("lng", sunriseRequest.getLng())
+                        .queryParam("lat", sunriseRequest.lat())
+                        .queryParam("lng", sunriseRequest.lng())
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()

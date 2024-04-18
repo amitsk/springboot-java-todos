@@ -1,77 +1,72 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.0.M1'
     id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.google.cloud.tools.jib' version '3.4.2'
 }
-
-apply plugin: 'io.spring.dependency-management'
 
 
 ext {
-    restAssuredVersion = '3.2.0'
-    jacksonVersion = '2.9.7'
-    junitJupiterVersion = '5.3.2'
-    resilience4jVersion = '0.13.2'
-    retrofitVersion = '2.5.0'
-    retrofitInterceptorVersion = '2.4.0'
+    set('springCloudVersion', "2023.0.1")
+    restAssuredVersion = '5.4.0'
+    jacksonVersion = '2.16.1'
+    junitJupiterVersion = '5.10.2'
+    resilience4jVersion = '2.2.0'
+    retrofitVersion = '2.11.0'
     reactorAdapterVersion = '2.1.0'
-    backstopperVersion = '0.11.5'
-    assertJVersion = '3.11.1'
-    mockitoVersion = '2.23.0'
-    mockWebServerVersion = '3.10.0'
+    backstopperVersion = '0.15.1'
+    assertJVersion = '3.25.3'
+    mockitoVersion = '5.11.0'
+    mockWebServerVersion = '4.12.0'
 }
 
 group = 'com.github.amitsk'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+java {
+    sourceCompatibility = '21'
 }
+
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/snapshot' }
-    maven { url 'https://repo.spring.io/milestone' }
 }
 
-ext {
-    set('springCloudVersion', 'Greenwich.BUILD-SNAPSHOT')
-}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
-    compile ('io.projectreactor.addons:reactor-extra')
-    
-    compile "com.nike.backstopper:backstopper-core:$backstopperVersion"
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
-    compile "io.github.resilience4j:resilience4j-circuitbreaker:$resilience4jVersion"
-    compile "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
-    compile "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
-    compile "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation('io.projectreactor.addons:reactor-extra')
 
-    
+    implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
+    implementation 'jakarta.el:jakarta.el-api:6.0.0'
+    implementation 'org.glassfish:jakarta.el:5.0.0-M1'
+    // Tracing
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.projectreactor:reactor-core-micrometer'
+
+
     // JUnit Jupiter API and TestEngine implementation
-    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
-    testCompile("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
-    testCompile ("io.rest-assured:rest-assured:${restAssuredVersion}")
-    testCompile "org.assertj:assertj-core:$assertJVersion"
-    testCompile "org.mockito:mockito-core:$mockitoVersion"
-    testCompile "com.squareup.okhttp3:mockwebserver:$mockWebServerVersion"
+    testCompileOnly("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testCompileOnly("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
+    testCompileOnly("io.rest-assured:rest-assured:${restAssuredVersion}")
+    testCompileOnly "org.assertj:assertj-core:$assertJVersion"
+    testCompileOnly "org.mockito:mockito-core:$mockitoVersion"
+    testCompileOnly('org.apiguardian:apiguardian-api:1.0.0')
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mockWebServerVersion"
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
     // To avoid compiler warnings about @API annotations in JUnit code
-    testCompileOnly('org.apiguardian:apiguardian-api:1.0.0')
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
 }
 
 dependencyManagement {
@@ -84,12 +79,6 @@ test {
     testLogging {
         showStandardStreams = true
     }
-    useJUnitPlatform {
-        // includeTags 'fast'
-        excludeTags 'slow'
-
-        // includeEngines 'junit-jupiter', 'junit-vintage'
-        // excludeEngines 'custom-engine'
-    }
+    useJUnitPlatform()
 }
 

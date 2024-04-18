@@ -1,18 +1,16 @@
 package com.github.amitsk.sunrise.service;
 
 
-import com.github.amitsk.sunrise.configuration.SunriseConfiguration;
 import com.github.amitsk.sunrise.configuration.SunriseProperties;
 import com.github.amitsk.sunrise.model.SunriseRequest;
-import com.github.amitsk.sunrise.model.SunsetSunrise;
+import com.github.amitsk.sunrise.model.SunsetApiResponse;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 
@@ -24,44 +22,47 @@ public class SunriseApiClientTest {
     @DisplayName("Happy Path flow for Sunrise client")
     public void sunriseHappyPath() throws IOException {
 
-        MockWebServer server = new MockWebServer();
-        // Schedule some responses.
-        MockResponse response = new MockResponse()
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .addHeader("Cache-Control", "no-cache")
-                .setBody("{\"status\": \"OK\", \"results\": " +
-                        "{\"sunrise\":\"A\", \"sunset\": \"B\"} }");
+        HttpUrl baseUrl;
+        try (MockWebServer server = new MockWebServer()) {
+            // Schedule some responses.
+            MockResponse response = new MockResponse()
+                    .addHeader("Content-Type", "application/json; charset=utf-8")
+                    .addHeader("Cache-Control", "no-cache")
+                    .setBody("{\"status\": \"OK\", \"results\": " +
+                            "{\"sunrise\":\"A\", \"sunset\": \"B\"} }");
 
-        MockResponse badResponse400 = new MockResponse()
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .addHeader("Cache-Control", "no-cache")
-                .setResponseCode(400);
+            MockResponse badResponse400 = new MockResponse()
+                    .addHeader("Content-Type", "application/json; charset=utf-8")
+                    .addHeader("Cache-Control", "no-cache")
+                    .setResponseCode(400);
 
-        MockResponse badResponse503 = new MockResponse()
-                .addHeader("Content-Type", "application/json; charset=utf-8")
-                .addHeader("Cache-Control", "no-cache")
-                .setResponseCode(503);
+            MockResponse badResponse503 = new MockResponse()
+                    .addHeader("Content-Type", "application/json; charset=utf-8")
+                    .addHeader("Cache-Control", "no-cache")
+                    .setResponseCode(503);
 
-        server.enqueue(response);
-        server.enqueue(badResponse400);
-        server.enqueue(badResponse503);
-        // Start the server.
-        server.start();
+            server.enqueue(response);
+            server.enqueue(badResponse400);
+            server.enqueue(badResponse503);
+            // Start the server.
+            server.start();
 
-        // Ask the server for its URL. You'll need this to make HTTP requests.
-        HttpUrl baseUrl = server.url("/json/");
+            // Ask the server for its URL. You'll need this to make HTTP requests.
+            baseUrl = server.url("/json/");
+            SunriseProperties sunriseProperties = new SunriseProperties();
+            SunriseProperties.SunriseApi sunriseApi = new SunriseProperties.SunriseApi();
+            sunriseApi.setUrl(baseUrl.toString());
+            sunriseProperties.setSunriseApi(sunriseApi);
 
-        SunriseProperties sunriseProperties = new SunriseProperties();
-        SunriseProperties.SunriseApi sunriseApi = new SunriseProperties.SunriseApi();
-        sunriseApi.setUrl(baseUrl.toString());
-        sunriseProperties.setSunriseApi(sunriseApi);
+            WebClient webClient = WebClient.create(baseUrl.toString());
+            SunriseApiClient sunriseApiClient = new SunriseApiClient(webClient);
 
-        WebClient webClient = WebClient.create(baseUrl.toString());
-        SunriseApiClient sunriseApiClient = new SunriseApiClient(webClient, Schedulers.single());
+            SunsetApiResponse.SunsetSunrise sunsetSunrise = sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
+            Assertions.assertNotNull(sunsetSunrise);
+            assertThat(sunsetSunrise.sunrise()).isEqualTo("A");
+            assertThat(sunsetSunrise.sunset()).isEqualTo("B");
+        }
 
-        SunsetSunrise sunsetSunrise = sunriseApiClient.callApi(new SunriseRequest("2.00", "2.00")).block();
-        assertThat(sunsetSunrise.getSunrise()).isEqualTo("A");
-        assertThat(sunsetSunrise.getSunset()).isEqualTo("B");
 
     }
 
