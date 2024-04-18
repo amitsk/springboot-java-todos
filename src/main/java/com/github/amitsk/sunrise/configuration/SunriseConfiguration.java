@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.reactive.config.DelegatingWebFluxConfiguration;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.WebExceptionHandler;
@@ -20,6 +21,10 @@ import reactor.scheduler.forkjoin.ForkJoinPoolScheduler;
 public class SunriseConfiguration extends DelegatingWebFluxConfiguration {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        return new LocalValidatorFactoryBean();
+    }
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public WebExceptionHandler sunriseExceptionHandler() {

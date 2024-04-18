@@ -7,6 +7,7 @@ plugins {
 
 
 ext {
+    set('springCloudVersion', "2023.0.1")
     restAssuredVersion = '5.4.0'
     jacksonVersion = '2.16.1'
     junitJupiterVersion = '5.10.2'
@@ -25,11 +26,7 @@ version = '0.0.1-SNAPSHOT'
 java {
     sourceCompatibility = '21'
 }
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
+
 
 repositories {
     mavenCentral()
@@ -40,7 +37,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    compileOnly('io.projectreactor.addons:reactor-extra')
+    implementation('io.projectreactor.addons:reactor-extra')
 
     implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -49,6 +46,14 @@ dependencies {
     implementation "io.github.resilience4j:resilience4j-cache:$resilience4jVersion"
     implementation "io.github.resilience4j:resilience4j-reactor:$resilience4jVersion"
     implementation "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
+    implementation 'jakarta.el:jakarta.el-api:6.0.0'
+    implementation 'org.glassfish:jakarta.el:5.0.0-M1'
+    // Tracing
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.projectreactor:reactor-core-micrometer'
 
 
     // JUnit Jupiter API and TestEngine implementation
@@ -67,6 +72,11 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 
 test {
     testLogging {

@@ -8,17 +8,18 @@ import com.nike.backstopper.exception.ApiException;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
-import javax.validation.Validator;
+
 
 import static com.github.amitsk.sunrise.errors.SunriseApiError.GENERIC_BAD_REQUEST;
 
@@ -48,7 +49,6 @@ public class SunriseController {
 
 
     @GetMapping("/{lat}/{lng}")
-    @Valid
     @Timed
     public Mono<SunsetApiResponse.SunsetSunrise> getSunsetSunrise(
             @PathVariable String lat,
