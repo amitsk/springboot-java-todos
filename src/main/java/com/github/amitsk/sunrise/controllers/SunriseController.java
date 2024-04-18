@@ -8,6 +8,7 @@ import com.nike.backstopper.exception.ApiException;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 
+import java.util.Set;
 
 import static com.github.amitsk.sunrise.errors.SunriseApiError.GENERIC_BAD_REQUEST;
 
@@ -38,14 +40,12 @@ public class SunriseController {
     private Validator validator;
 
     @Autowired
-    public SunriseController(SunriseApiClient sunriseApiClient, MeterRegistry registry)
-    {
+    public SunriseController(SunriseApiClient sunriseApiClient, MeterRegistry registry) {
         this.sunriseApiClient = sunriseApiClient;
         this.counter = registry.counter("received.requests");
         this.validationErrorCounter = registry.counter("validation.error.requests");
         this.successfulRequestCounter = registry.counter("successful.requests");
     }
-
 
 
     @GetMapping("/{lat}/{lng}")
@@ -59,7 +59,8 @@ public class SunriseController {
         SunriseRequest sunriseRequest = new SunriseRequest(lat, lng);
         logger.info("Sunrise Request passed {}", sunriseRequest);
 
-        if(!validator.validate(sunriseRequest).isEmpty()) {
+        Set<ConstraintViolation<SunriseRequest>> errors = validator.validate(sunriseRequest);
+        if (!errors.isEmpty()) {
             validationErrorCounter.increment();
             throw ApiException.newBuilder()
                     .withApiErrors(GENERIC_BAD_REQUEST).build();
