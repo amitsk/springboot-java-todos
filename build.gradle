@@ -46,7 +46,7 @@ dependencies {
     implementation 'jakarta.el:jakarta.el-api:6.0.0'
     implementation 'org.glassfish:jakarta.el:5.0.0-M1'
     // Tracing
-    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.micrometer:micrometer-tracing-bridge-otel:1.2.5'
     implementation 'io.projectreactor:reactor-core-micrometer'
 
 

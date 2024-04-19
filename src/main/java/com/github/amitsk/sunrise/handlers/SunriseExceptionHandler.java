@@ -44,7 +44,10 @@ public class SunriseExceptionHandler implements WebExceptionHandler {
                     .orElse(HttpStatus.INTERNAL_SERVER_ERROR);
 
             DefaultErrorContractDTO errorDto = new DefaultErrorContractDTO(UUID.randomUUID().toString(), apiException.getApiErrors());
-            logger.error("Error handling request error_id={}, message={}, status={}", errorDto.error_id, apiException.getMessage(), httpStatus, apiException);
+            logger.error("Error handling request error_id={}, message={}, status={}", errorDto.error_id, apiException.getMessage(), httpStatus);
+            if (HttpStatus.INTERNAL_SERVER_ERROR.equals(httpStatus)) {
+                logger.error(" Internal Server Error", apiException);
+            }
             return ServerResponse
                     .status(httpStatus).header("error_id", errorDto.error_id)
                     .syncBody(errorDto);
