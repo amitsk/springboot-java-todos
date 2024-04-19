@@ -40,9 +40,6 @@ dependencies {
     implementation('io.projectreactor.addons:reactor-extra')
 
     implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
-    implementation "com.jakewharton.retrofit:retrofit2-reactor-adapter:$reactorAdapterVersion"
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
     // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
