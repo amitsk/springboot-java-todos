@@ -46,11 +46,7 @@ dependencies {
     implementation('io.projectreactor.addons:reactor-extra')
 
     implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-    // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
-    implementation 'jakarta.el:jakarta.el-api:6.0.0'
-    implementation 'org.glassfish:jakarta.el:5.0.0-M1'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     // Tracing
     implementation 'io.micrometer:micrometer-tracing-bridge-otel:1.2.5'
     implementation 'io.projectreactor:reactor-core-micrometer'
