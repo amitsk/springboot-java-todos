@@ -82,18 +82,19 @@ test {
 }
 // https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin
 jib {
-  from {
-    image = 'public.ecr.aws/amazoncorretto/amazoncorretto:21-al2023'
-  }
-  to {
-    image = rootProject.name
-  }
-  container {
-    mainClass = 'com.github.amitsk.sunrise.SpringBootSunriseApplication'
-    ports = ['8080']
-  }
+    from {
+        image = 'public.ecr.aws/amazoncorretto/amazoncorretto:21-al2023'
+    }
+    to {
+        image = rootProject.name
+    }
+    container {
+        mainClass = 'com.github.amitsk.sunrise.SpringBootSunriseApplication'
+        ports = ['8080']
+    }
+    containerizingMode = "packaged"
 }
 
-processResources{
-    filter (ReplaceTokens, tokens:[version: buildNumber])
+processResources {
+    filter(ReplaceTokens, tokens: [version: buildNumber])
 }
