@@ -1,8 +1,11 @@
+import org.apache.tools.ant.filters.ReplaceTokensg
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.4'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'com.google.cloud.tools.jib' version '3.4.2'
+    id "com.palantir.git-version" version "3.0.0"
 }
 
 
@@ -21,7 +24,7 @@ ext {
 }
 
 group = 'com.github.amitsk'
-version = '0.0.1-SNAPSHOT'
+version gitVersion()
 
 java {
     sourceCompatibility = '21'
@@ -90,4 +93,8 @@ jib {
     mainClass = 'com.github.amitsk.sunrise.SpringBootSunriseApplication'
     ports = ['8080']
   }
+}
+
+processResources{
+    filter (ReplaceTokens, tokens:[version: project.version])
 }
