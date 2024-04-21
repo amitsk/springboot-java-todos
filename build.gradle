@@ -27,6 +27,8 @@ ext {
 group = 'com.github.amitsk'
 version gitVersion()
 
+def buildNumber = gitVersion()
+
 java {
     sourceCompatibility = '21'
 }
@@ -97,5 +99,5 @@ jib {
 }
 
 processResources{
-    filter (ReplaceTokens, tokens:[version: project.version])
+    filter (ReplaceTokens, tokens:[version: buildNumber])
 }
