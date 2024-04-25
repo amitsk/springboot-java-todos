@@ -5,7 +5,6 @@ import com.github.amitsk.sunrise.model.SunsetApiResponse;
 import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,10 +16,11 @@ public class SunriseApiClient {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final WebClient webClient;
 
-    @Autowired
     public SunriseApiClient(WebClient webClient) {
         this.webClient = webClient;
     }
+
+
 
     @Timed
     public Mono<SunsetApiResponse.SunsetSunrise> callApi(SunriseRequest sunriseRequest) {
@@ -35,7 +35,6 @@ public class SunriseApiClient {
                 .retrieve()
                 .bodyToMono(SunsetApiResponse.class)
                 .map(SunsetApiResponse::toSunsetSunrise);
-                //.subscribeOn(forkJoinPoolScheduler);
     }
 
 }

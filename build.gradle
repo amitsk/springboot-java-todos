@@ -42,14 +42,17 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation('io.projectreactor.addons:reactor-extra')
-
-    implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation('io.projectreactor.addons:reactor-extra')
+    implementation "com.nike.backstopper:backstopper-core:$backstopperVersion"
+
     // Tracing
     implementation 'io.micrometer:micrometer-tracing-bridge-otel:1.2.5'
     implementation 'io.projectreactor:reactor-core-micrometer'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 
     // JUnit Jupiter API and TestEngine implementation
@@ -65,6 +68,7 @@ dependencies {
     // To avoid compiler warnings about @API annotations in JUnit code
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'io.projectreactor:reactor-test'
 }
 
