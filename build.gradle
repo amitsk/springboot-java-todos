@@ -25,7 +25,7 @@ ext {
 }
 
 group = 'com.github.amitsk'
-version gitVersion()
+version 0.1
 
 def buildNumber = gitVersion()
 
@@ -101,4 +101,15 @@ jib {
 
 processResources {
     filter(ReplaceTokens, tokens: [version: buildNumber])
+}
+
+
+bootJar {
+    archiveFileName = "application.jar"
+}
+
+task extractedJar(type: Exec) {
+    dependsOn(bootJar)
+    executable "sh"
+    args "-c", "java -Djarmode=layertools -jar build/libs/application.jar extract --destination build/extracted"
 }
